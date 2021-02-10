@@ -44,7 +44,7 @@ export default function Posts({posts}: PostsPageProps) {
                         <ListGroup>
                             {
                                 
-                                posts.map(post => {
+                                posts.reverse().map(post => {
                                     return (
                                         <ListItem key={post.id} >
                                             <Link href={`/posts/[id]`} as={`/posts/${post.id}`}>
