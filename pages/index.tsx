@@ -5,10 +5,11 @@ import { getData } from '../services/post-service';
 import styled from 'styled-components';
 
 const ListGroup = styled.ul`
-    list-style: none;
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
+    padding-left: 0;
+    list-style: none; 
 `;
 const ListItem = styled.li`
     background: #E5F0FF;
@@ -39,20 +40,22 @@ export default function Posts({posts}: PostsPageProps) {
     // console.log(posts)
     return (
             <MainContainer title="Posts page" keywords="posts page">
-                    <ListGroup>
-                        {
-                            
-                            posts.map(post => {
-                                return (
-                                    <ListItem key={post.id} >
-                                        <Link href={`/posts/[id]`} as={`/posts/${post.id}`}>
-                                            <ListItemLink>{post.title}</ListItemLink>
-                                        </Link>
-                                    </ListItem>
-                                )
-                            })
-                        }
-                    </ListGroup>
+                    <div style={{margin: '0 auto'}}>
+                        <ListGroup>
+                            {
+                                
+                                posts.map(post => {
+                                    return (
+                                        <ListItem key={post.id} >
+                                            <Link href={`/posts/[id]`} as={`/posts/${post.id}`}>
+                                                <ListItemLink>{post.title}</ListItemLink>
+                                            </Link>
+                                        </ListItem>
+                                    )
+                                })
+                            }
+                        </ListGroup>
+                    </div>
             </MainContainer>
     )
 }

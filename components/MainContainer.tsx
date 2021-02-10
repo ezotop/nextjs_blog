@@ -6,7 +6,7 @@ const NavBar = styled.nav`
     display: flex;
     align-items: center;
     height: 60px;
-    width: 100vw;
+    width: 100%;
     padding: 0 170px;
     background: #0070f3;
 `;
