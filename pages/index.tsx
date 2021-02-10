@@ -15,7 +15,7 @@ const ListItem = styled.li`
     border-radius: 5px;
     margin: 20px;
     display: block;
-    width: 230px;
+    width: 220px;
     height: 230px;
     padding: 20px;
     padding-top: 60px;
@@ -57,7 +57,7 @@ export default function Posts({posts}: PostsPageProps) {
     )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
     const posts = await getData(`${process.env.API_URL}`);
 
     return {
