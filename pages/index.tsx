@@ -44,7 +44,7 @@ export default function Posts({posts}: PostsPageProps) {
                         <ListGroup>
                             {
                                 
-                                posts.reverse().map(post => {
+                                posts.map(post => {
                                     return (
                                         <ListItem key={post.id} >
                                             <Link href={`/posts/[id]`} as={`/posts/${post.id}`}>
@@ -65,7 +65,7 @@ export async function getServerSideProps() {
 
     return {
         props: {
-            posts
+            posts: posts.reverse()
         }
     }
 }
