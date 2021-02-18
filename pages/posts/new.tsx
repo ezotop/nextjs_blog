@@ -2,7 +2,7 @@ import MainContainer from "../../components/MainContainer";
 import { MyNewPost } from '../../interfaces/new';
 import { postData } from '../../services/post-service';
 import { connect } from 'react-redux';
-import { loadingError, changedValue, clearInputs } from '../../actions/index';
+import { loadingError, changedValue, clearInputs } from '../../redux/actions/index';
 import { PostBackBtn, PostSection } from '../posts/[id]';
 import styled from 'styled-components';
 

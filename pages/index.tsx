@@ -1,13 +1,18 @@
+import { connect } from 'react-redux';
 import Link from 'next/link';
 import MainContainer from '../components/MainContainer';
 import { MyPost } from '../interfaces/post';
 import { getData } from '../services/post-service';
 import styled from 'styled-components';
+// import { useSelector, useDispath } from 'react-redux';
+import { getPosts } from '../redux/actions/index';
+import { useEffect } from 'react';
 
 const ListGroup = styled.ul`
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     flex-wrap: wrap;
+    width: 100%;
     padding-left: 0;
     list-style: none; 
 `;
@@ -16,8 +21,8 @@ const ListItem = styled.li`
     border-radius: 5px;
     margin: 20px;
     display: block;
-    width: 220px;
-    height: 230px;
+    width: 25%;
+    height: 250px;
     padding: 20px;
     padding-top: 60px;
     text-align: center;
@@ -33,39 +38,62 @@ const ListItemLink = styled.a`
 `;
 
 interface PostsPageProps {
+    serverPosts: MyPost[]
     posts: MyPost[]
+    loading: boolean
+    error: boolean
+    getPosts: any
 }
 
-export default function Posts({posts}: PostsPageProps) {
-    // console.log(posts)
+const Posts = ({serverPosts, posts, loading, error, getPosts}: PostsPageProps) => {
+
     return (
-            <MainContainer title="Posts page" keywords="posts page">
-                    <div style={{margin: '0 auto'}}>
-                        <ListGroup>
-                            {
-                                
-                                posts.map(post => {
-                                    return (
-                                        <ListItem key={post.id} >
-                                            <Link href={`/posts/[id]`} as={`/posts/${post.id}`}>
-                                                <ListItemLink>{post.title}</ListItemLink>
-                                            </Link>
-                                        </ListItem>
-                                    )
-                                })
-                            }
-                        </ListGroup>
-                    </div>
-            </MainContainer>
+        <MainContainer title="Posts page" keywords="posts page">
+                <>
+                    {
+                        loading ? (
+                            <h2>Loading...</h2>
+                        ) : (
+                            <ListGroup>
+                                {
+                                   serverPosts.map(post => {
+                                        return (
+                                            <ListItem key={post.id} >
+                                                <Link href={`/posts/[id]`} as={`/posts/${post.id}`}>
+                                                    <ListItemLink>{post.title}</ListItemLink>
+                                                </Link>
+                                            </ListItem>
+                                        )
+                                    })
+                                }
+                            </ListGroup>
+                        )
+                    }
+                </>
+        </MainContainer>
     )
-}
+};
 
-export async function getServerSideProps() {
+const mapStateToProps = (state) => {
+    return {
+        posts: state.posts,
+        loading: state.loading,
+        error: state.error
+    }
+};
+
+const mapDispatchToProps = {
+    getPosts
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Posts);
+
+export async function getStaticProps() {
     const posts = await getData(`${process.env.API_URL}`);
-
+    console.log('StaticProps');
     return {
         props: {
-            posts: posts.reverse()
+            serverPosts: posts.reverse()
         }
     }
 }

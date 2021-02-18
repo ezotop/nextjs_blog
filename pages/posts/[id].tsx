@@ -1,8 +1,9 @@
-import { NextPageContext } from 'next';
+import { NextPageContext, GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
 import Link from 'next/link';
 import MainContainer from '../../components/MainContainer';
 import { MyPost } from '../../interfaces/post';
 import { getData } from '../../services/post-service';
+import { getPosts } from '../../redux/actions/index';
 import styled from 'styled-components';
 
 export const PostSection = styled.section`
@@ -50,18 +51,30 @@ const Post = ({post}: PostPageProps) => {
 
 export default Post;
 
+export const getStaticPaths: GetStaticPaths = async () => {
+    const posts = await getData(`${process.env.API_URL}`);
+    const paths = posts.map(post => ({
+        params: { id: post.id.toString() }
+    }));
+
+    return {
+      paths,
+      fallback: false
+    }
+};
+
 interface PostNextPageContext extends NextPageContext {
-    query: {
+    params: {
         id: string
     }
 }
 
-export async function getServerSideProps({query}: PostNextPageContext) {
-    const post = await getData(`${process.env.API_URL}/`, query.id);
-
+export const getStaticProps: GetStaticProps = async ({params}: PostNextPageContext) => {
+    const post = await getData(`${process.env.API_URL}/`, params.id);
+    
     return {
         props: {
-            post
+            post         
         }
     }
-}
+};

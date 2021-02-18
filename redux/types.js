@@ -1,0 +1,5 @@
+export const POST_REQUESTED = 'POST_REQUESTED';
+export const POST_LOADED = 'POST_LOADED';
+export const LOADING_ERROR = 'LOADING_ERROR';
+export const CHANGED_VALUE = 'CHANGED_VALUE';
+export const CLEAR_INPUTS ='CLEAR_INPUTS';

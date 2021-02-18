@@ -1,28 +1,37 @@
-import { StateObj } from '../interfaces/state';
+import { POST_REQUESTED, POST_LOADED, LOADING_ERROR, CHANGED_VALUE, CLEAR_INPUTS } from '../types';
+import { StateObj } from '../../interfaces/state';
 
 const initialState: StateObj = {
-    loading: true,
+    loading: false,
     error: false,
+    posts: [],
     postTitle: '',
     postBody: ''
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'POST_LOADED':
+        case POST_REQUESTED:
             return {
                 ...state,
-                loading: false
+                loading: true
             };
 
-        case 'LOADING_ERROR':
+        case POST_LOADED:
+            return {
+                ...state,
+                loading: false,
+                posts: [...action.payload]
+            };
+
+        case LOADING_ERROR:
             return {
                 ...state,
                 loading: false,
                 error: true
             };
 
-        case 'CHANGED_VALUE':        
+        case CHANGED_VALUE:        
             if (action.isTitle) {
                 return {
                     ...state,
@@ -34,7 +43,7 @@ const reducer = (state = initialState, action) => {
                 postBody: action.payload
             };
 
-        case 'CLEAR_INPUTS':
+        case CLEAR_INPUTS:
             return {
                 ...state,
                 postTitle: '',

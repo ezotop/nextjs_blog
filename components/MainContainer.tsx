@@ -3,10 +3,13 @@ import Link from "next/link"
 import styled from "styled-components";
 
 const NavBar = styled.nav`
+    position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
     align-items: center;
     height: 60px;
-    width: 100%;
+    width: 100vw;
     padding: 0 170px;
     background: #0070f3;
 `;
@@ -18,8 +21,9 @@ const NavLink = styled.a`
 `;
 
 const MainDiv = styled.main`
-    width: 1140px;
+    max-width: 1140px;
     margin: 0 auto;
+    padding: 60px 0;
 `;
 
 const MainContainer = ({children, title, keywords}) => {

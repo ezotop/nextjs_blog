@@ -1,5 +1,5 @@
 import axios, {AxiosRequestConfig} from 'axios';
-import { loadingError } from '../actions/index';
+import { loadingError } from '../redux/actions/index';
 
 const postData = async (data) => {
     // console.log(data);
@@ -19,7 +19,7 @@ const postData = async (data) => {
         })
         .catch(function (error) {
             console.log(error);
-            loadingError();
+            loadingError(error);
         });
 };
 
