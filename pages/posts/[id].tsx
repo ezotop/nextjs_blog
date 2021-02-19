@@ -1,4 +1,4 @@
-import { NextPageContext, GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import { NextPageContext, GetStaticPaths, GetStaticProps, GetServerSideProps } from 'next';
 import Link from 'next/link';
 import MainContainer from '../../components/MainContainer';
 import { MyPost } from '../../interfaces/post';
@@ -51,25 +51,14 @@ const Post = ({post}: PostPageProps) => {
 
 export default Post;
 
-export const getStaticPaths: GetStaticPaths = async () => {
-    const posts = await getData(`${process.env.API_URL}`);
-    const paths = posts.map(post => ({
-        params: { id: post.id.toString() }
-    }));
-
-    return {
-      paths,
-      fallback: false
-    }
-};
-
 interface PostNextPageContext extends NextPageContext {
     params: {
         id: string
     }
 }
 
-export const getStaticProps: GetStaticProps = async ({params}: PostNextPageContext) => {
+export const getServerSideProps = async ({params}: PostNextPageContext) => {
+    console.log(params);
     const post = await getData(`${process.env.API_URL}/`, params.id);
     
     return {
@@ -78,3 +67,25 @@ export const getStaticProps: GetStaticProps = async ({params}: PostNextPageConte
         }
     }
 };
+
+// export const getStaticPaths: GetStaticPaths = async () => {
+//     const posts = await getData(`${process.env.API_URL}`);
+//     const paths = posts.map(post => ({
+//         params: { id: post.id.toString() }
+//     }));
+
+//     return {
+//       paths,
+//       fallback: false
+//     }
+// };
+
+// export const getStaticProps: GetStaticProps = async ({params}: PostNextPageContext) => {
+//     const post = await getData(`${process.env.API_URL}/`, params.id);
+    
+//     return {
+//         props: {
+//             post         
+//         }
+//     }
+// };

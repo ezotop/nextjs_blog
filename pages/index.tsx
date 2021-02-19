@@ -7,6 +7,7 @@ import styled from 'styled-components';
 // import { useSelector, useDispath } from 'react-redux';
 import { getPosts } from '../redux/actions/index';
 import { useEffect } from 'react';
+import { useRouter } from 'next/dist/client/router';
 
 const ListGroup = styled.ul`
     display: flex;
@@ -46,6 +47,11 @@ interface PostsPageProps {
 }
 
 const Posts = ({serverPosts, posts, loading, error, getPosts}: PostsPageProps) => {
+    const router = useRouter();
+
+    if (router.isFallback) {
+        return <div>Loading...</div>
+    }
 
     return (
         <MainContainer title="Posts page" keywords="posts page">
@@ -88,9 +94,9 @@ const mapDispatchToProps = {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Posts);
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
     const posts = await getData(`${process.env.API_URL}`);
-    console.log('StaticProps');
+    console.log('getServerSideProps');
     return {
         props: {
             serverPosts: posts.reverse()
